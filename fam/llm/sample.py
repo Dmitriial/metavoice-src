@@ -32,7 +32,11 @@ class InferenceConfig:
     num_samples: int = 10  # number of samples to draw
     seed: int = 1337  # random seed
     device: str = "cuda"
-    dtype: str = "bfloat16"
+
+    # fixme: trick for the OLDEST GPU
+    # dtype: str = "bfloat16"
+    dtype: str = "float16"
+
     compile: bool = False
     init_from: str = "resume"  # either 'resume' (from an out_dir) or a gpt2 variant (e.g. 'gpt2-xl')
 
@@ -592,10 +596,10 @@ class SamplingControllerConfig:
     Sample from a trained model.
     """
 
-    huggingface_repo_id: str
+    huggingface_repo_id: Optional[str] = None
     """Absolute path to the model directory."""
 
-    spk_cond_path: str
+    spk_cond_path: Optional[str] = None
     """Path to speaker reference file. Supports: wav, flac & mp3"""
 
     text: str = (
@@ -624,7 +628,8 @@ class SamplingControllerConfig:
     device: Literal["cuda", "cpu"] = "cuda"
     """Device to use for sampling."""
 
-    dtype: Literal["bfloat16", "float16", "float32", "tfloat32"] = "bfloat16"
+    # fixme: trick for the OLDEST GPU
+    dtype: Literal["bfloat16", "float16", "float32", "tfloat32"] = "float16"
     """Data type to use for sampling."""
 
     compile: bool = False

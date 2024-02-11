@@ -1,10 +1,17 @@
+import logging
+
 import torch
 import torch.nn as nn
-from flash_attn import (  # type: ignore
-    flash_attn_func,
-    flash_attn_qkvpacked_func,
-    flash_attn_with_kvcache,
-)
+
+# fixme: trick for the OLDEST GPU
+try:
+    from flash_attn import (  # type: ignore
+        flash_attn_func,
+        flash_attn_qkvpacked_func,
+        flash_attn_with_kvcache,
+    )
+except ImportError:
+    logging.warning("Cannot loading flash_attn for the GPU (!)")
 
 
 class SelfAttention(nn.Module):
